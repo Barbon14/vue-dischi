@@ -27,14 +27,20 @@ export default {
   margin: 0;
 }
 
+body {
+  font-family: sans-serif;
+}
+
 header {
   background-color: #2e3a46;
   height: 80px;
   width: 100vw;
 }
+
 main {
   background-color: #1e2d3b;
   height: calc(100vh - 80px);
   width: 100vw;
+  padding-top: 50px;
 }
 </style>
