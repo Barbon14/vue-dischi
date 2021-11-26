@@ -1,31 +1,38 @@
 <template>
     <div class="disc">
-        <img src="https://www.ibs.it/images/0194398243825_0_0_200_75.jpg" alt="">
+        <img :src="info.poster" :alt="info.title">
         <h3>
-            titolo disco
+            {{ info.title }}
         </h3>
         <h4>
-            artista
+            {{ info.author }}
         </h4>
         <h5>
-            1999
+            {{ info.year }}
         </h5>
     </div>
 </template>
 
 <script>
 export default {
-  name: 'Disc'
+    name: 'Disc',
+    props: {
+        info: Object
+    }
 }
 </script>
 
 <style lang="scss" scoped>
 .disc {
     text-align: center;
-    width: calc((100% / 5) - 20px);
+    width: calc((100% / 5) - 30px);
     background-color: #2e3a46;
-    margin: 0 10px;
-    padding: 10px 0;
+    margin: 15px;
+    padding: 25px;
+
+    img {
+        width: 100%;
+    }
 
     h3 {
         color: white;

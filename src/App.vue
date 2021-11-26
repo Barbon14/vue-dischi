@@ -42,5 +42,6 @@ main {
   height: calc(100vh - 80px);
   width: 100vw;
   padding-top: 50px;
+  overflow: auto;
 }
 </style>
