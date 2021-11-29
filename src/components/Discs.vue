@@ -1,30 +1,47 @@
 <template>
-  <section id="discs-container">
-    <Disc
-        v-for="disc, i in apiDiscs" :key="i"
-        :info="disc"
-    />
-  </section>
+    <div class="container">
+        <FilterGenre @genre="genreFilter"/>
+        <section id="discs-container">
+            <Disc
+                v-for="disc, i in filteredApiDiscs" :key="i"
+                :info="disc"
+            />
+        </section>
+    </div>
 </template>
 
 <script>
 import Disc from "@/components/Disc.vue";
+import FilterGenre from "@/components/FilterGenre.vue";
 
 import axios from "axios";
 
 export default {
     name: 'Discs',
     components: {
-        Disc
+        Disc,
+        FilterGenre
     },
     data () {
         return {
             apiDiscs : [],
-            apiUrl : 'https://flynn.boolean.careers/exercises/api/array/music'
+            apiUrl : 'https://flynn.boolean.careers/exercises/api/array/music',
+            selectedGenre: ""
         }
     },
     created () {
         this.getApiDiscs();
+    },
+    computed: {
+        filteredApiDiscs() {
+            if ( this.selectedGenre === "") {
+                return this.apiDiscs;
+            } 
+
+            return this.apiDiscs.filter((item) => {
+                return item.genre.toLowerCase() === this.selectedGenre;
+            });
+        }
     },
     methods: {
         getApiDiscs () {
@@ -33,16 +50,23 @@ export default {
             .then((result) => {
                 this.apiDiscs = result.data.response
             })
+        },
+        genreFilter(genre) {
+            this.selectedGenre = genre;
+            console.log(this.selectedGenre);
         }
     }
 }
 </script>
 
 <style lang="scss" scoped>
-#discs-container {
+.container {
     width: 70%;
     margin: 0px auto;
-    display: flex;
-    flex-wrap: wrap;
+
+    #discs-container {
+        display: flex;
+        flex-wrap: wrap;
+    }
 }
 </style>
