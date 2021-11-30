@@ -1,5 +1,6 @@
 <template>
     <section id="discs-container">
+        <!-- stampo i dischi -->
         <Disc
             v-for="(disc, i) in filteredApiDiscs" :key="i"
             :info="disc"
@@ -23,15 +24,20 @@ export default {
     },
     data () {
         return {
+            // url del API
+            apiUrl : 'https://flynn.boolean.careers/exercises/api/array/music', 
+            // array dischi 
             apiDiscs : [],
-            apiUrl : 'https://flynn.boolean.careers/exercises/api/array/music',
+            // array generi
             allGenres : []
         }
     },
     created () {
+        // richiamo metodo per chiamata axios
         this.getApiDiscs();
     },
     computed: {
+        // filtro i dischi per genere
         filteredApiDiscs() {
             if ( this.selectedGenre === "") {
                 return this.apiDiscs;
@@ -43,19 +49,23 @@ export default {
         }
     },
     methods: {
+        // uso un metodo per fare la chiamata axios
         getApiDiscs () {
             axios
             .get(this.apiUrl)
             .then((result) => {
+                // genero la lista dei dischi
                 this.apiDiscs = result.data.response;
+                // genero la lista dei generi senza doppioni
                 this.apiDiscs.forEach((disc) => {
                     if (!this.allGenres.includes(disc.genre)) {
                         this.allGenres.push(disc.genre);
                     }
-                    console.log(this.allGenres);
                 });
+                // emetto la lista generi
                 this.$emit('genresList', this.allGenres);
             })
+            // stampo in console eventuale errore chiamata axios
             .catch ((err) => {
                 console.log(err);
             });

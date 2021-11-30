@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <header>
-
+      <!-- logo -->
     </header>
     <main>
       <div class="container">
@@ -68,6 +68,4 @@ main {
     margin: 0 auto;
   }
 }
-
-
 </style>

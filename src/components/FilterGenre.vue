@@ -5,6 +5,7 @@
         </label>
         <select v-model="genreSelect" @change="$emit('genre', genreSelect)">
             <option value="">Tutti</option>
+            <!-- stampo le option in base alla lista dei generi -->
             <option v-for="(genre, i) in list" :key="i" :value="genre">
                 {{ genre }}
             </option>
@@ -21,6 +22,7 @@ export default {
         }
     },
     props: {
+        // ricevo la lista dei generi dal padre
         list : Array
     } 
 }
