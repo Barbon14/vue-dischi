@@ -4,11 +4,10 @@
             Scegli un genere
         </label>
         <select v-model="genreSelect" @change="$emit('genre', genreSelect)">
-            <option value=""></option>
-            <option value="rock">Rock</option>
-            <option value="pop">Pop</option>
-            <option value="jazz">Jazz</option>
-            <option value="metal">Metal</option>
+            <option value="">Tutti</option>
+            <option v-for="(genre, i) in list" :key="i" :value="genre">
+                {{ genre }}
+            </option>
         </select>
     </div>
 </template>
@@ -20,7 +19,10 @@ export default {
         return {
             genreSelect: "",
         }
-    }
+    },
+    props: {
+        list : Array
+    } 
 }
 </script>
 

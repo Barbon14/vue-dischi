@@ -1,18 +1,14 @@
 <template>
-    <div class="container">
-        <FilterGenre @genre="genreFilter"/>
-        <section id="discs-container">
-            <Disc
-                v-for="disc, i in filteredApiDiscs" :key="i"
-                :info="disc"
-            />
-        </section>
-    </div>
+    <section id="discs-container">
+        <Disc
+            v-for="(disc, i) in filteredApiDiscs" :key="i"
+            :info="disc"
+        />
+    </section>
 </template>
 
 <script>
 import Disc from "@/components/Disc.vue";
-import FilterGenre from "@/components/FilterGenre.vue";
 
 import axios from "axios";
 
@@ -20,13 +16,16 @@ export default {
     name: 'Discs',
     components: {
         Disc,
-        FilterGenre
+    },
+
+    props: {
+        selectedGenre : String
     },
     data () {
         return {
             apiDiscs : [],
             apiUrl : 'https://flynn.boolean.careers/exercises/api/array/music',
-            selectedGenre: ""
+            allGenres : []
         }
     },
     created () {
@@ -36,10 +35,10 @@ export default {
         filteredApiDiscs() {
             if ( this.selectedGenre === "") {
                 return this.apiDiscs;
-            } 
+            }
 
             return this.apiDiscs.filter((item) => {
-                return item.genre.toLowerCase() === this.selectedGenre;
+                return item.genre === this.selectedGenre;
             });
         }
     },
@@ -48,25 +47,28 @@ export default {
             axios
             .get(this.apiUrl)
             .then((result) => {
-                this.apiDiscs = result.data.response
+                this.apiDiscs = result.data.response;
+                this.apiDiscs.forEach((disc) => {
+                    if (!this.allGenres.includes(disc.genre)) {
+                        this.allGenres.push(disc.genre);
+                    }
+                    console.log(this.allGenres);
+                });
+                this.$emit('genresList', this.allGenres);
             })
+            .catch ((err) => {
+                console.log(err);
+            });
         },
-        genreFilter(genre) {
-            this.selectedGenre = genre;
-            console.log(this.selectedGenre);
-        }
     }
 }
 </script>
 
 <style lang="scss" scoped>
-.container {
-    width: 70%;
-    margin: 0px auto;
 
-    #discs-container {
-        display: flex;
-        flex-wrap: wrap;
-    }
+#discs-container {
+    display: flex;
+    flex-wrap: wrap;
 }
+
 </style>

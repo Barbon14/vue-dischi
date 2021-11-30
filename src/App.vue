@@ -4,18 +4,37 @@
 
     </header>
     <main>
-      <Discs/>
+      <div class="container">
+        <FilterGenre :list="genresList" @genre="genreFilter"/>
+        <Discs :selectedGenre="genreSearch" @genresList="getGenersList"/>
+      </div>
     </main>
   </div>
 </template>
 
 <script>
 import Discs from "@/components/Discs.vue";
+import FilterGenre from "@/components/FilterGenre.vue";
 
 export default {
   name: 'App',
   components: {
-    Discs
+    Discs,
+    FilterGenre
+  },
+  data() {
+    return {
+      genresList: [],
+      genreSearch: ""
+    }
+  },
+  methods: {
+    genreFilter(genre) {
+      this.genreSearch = genre;
+    },
+    getGenersList(allGenres) {
+      this.genresList = allGenres;
+    }
   }
 }
 </script>
@@ -43,5 +62,12 @@ main {
   width: 100vw;
   padding-top: 50px;
   overflow: auto;
+
+  .container{
+    width: 70%;
+    margin: 0 auto;
+  }
 }
+
+
 </style>
